@@ -12,31 +12,95 @@
         <div class="overlay"></div>
         <div class="todo-head">
           <div class="todo-head-left">
-            <h2 class="todo-title" data-testid="test-todo-title">
-              Finish HNG Task 0
-            </h2>
-            <div class="status">
-              <span class="priority tag" data-testid="test-todo-priority">
+            <div class="title-row">
+              <h2 class="todo-title" data-testid="test-todo-title">
+                Finish HNG Task 0
+              </h2>
+              <label class="completed-toggle" for="completed">
+                <input
+                  id="completed"
+                  type="checkbox"
+                  data-testid="test-todo-complete-toggle"
+                />
+                <span>Mark complete</span>
+              </label>
+            </div>
+            <div class="status-row">
+              <span
+                class="priority tag"
+                data-testid="test-todo-priority"
+                id="todo-priority-text"
+              >
                 High
               </span>
-              <span class="tag stat" data-testid="test-todo-status">
-                Pending
+              <span
+                class="priority-indicator"
+                data-testid="test-todo-priority-indicator"
+                aria-live="polite"
+              >
+                High Priority
               </span>
+              <span class="tag stat" data-testid="test-todo-status"
+                >Pending</span
+              >
+            </div>
+            <div
+              class="status-control"
+              data-testid="test-todo-status-control"
+              role="radiogroup"
+              aria-label="Task status"
+            >
+              <button
+                type="button"
+                class="status-chip is-active"
+                data-status="Pending"
+                role="radio"
+                aria-checked="true"
+              >
+                Pending
+              </button>
+              <button
+                type="button"
+                class="status-chip"
+                data-status="In Progress"
+                role="radio"
+                aria-checked="false"
+              >
+                In Progress
+              </button>
+              <button
+                type="button"
+                class="status-chip"
+                data-status="Done"
+                role="radio"
+                aria-checked="false"
+              >
+                Done
+              </button>
             </div>
           </div>
-          <label class="completed-toggle" for="completed">
-            <input
-              id="completed"
-              type="checkbox"
-              data-testid="test-todo-complete-toggle"
-            />
-            <span>Completed</span>
-          </label>
         </div>
-        <p class="todo-description" data-testid="test-todo-description">
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Rerum
-          provident atque iste laborum quod earum!
-        </p>
+
+        <div
+          class="todo-collapsible"
+          id="todo-collapsible-section"
+          data-testid="test-todo-collapsible-section"
+        >
+          <p class="todo-description" data-testid="test-todo-description">
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Rerum
+            provident atque iste laborum quod earum!
+          </p>
+        </div>
+        <button
+          class="expand-toggle"
+          type="button"
+          data-testid="test-todo-expand-toggle"
+          aria-expanded="true"
+          aria-controls="todo-collapsible-section"
+        >
+          Collapse details
+        </button>
+
         <div class="date-div">
           <p>
             Due Date: <br />
@@ -50,11 +114,25 @@
           </p>
           <p>
             Remaining Time: <br />
-            <time data-testid="test-todo-time-remaining" class="time-remaining">
+            <time
+              data-testid="test-todo-time-remaining"
+              class="time-remaining"
+              aria-live="polite"
+            >
               Due in 3 days
             </time>
           </p>
         </div>
+        <p
+          class="overdue-indicator"
+          data-testid="test-todo-overdue-indicator"
+          role="status"
+          aria-live="polite"
+          hidden
+        >
+          Overdue
+        </p>
+
         <!-- Tags -->
         <ul class="tag-div" data-testid="test-todo-tags">
           <li class="tag" data-testid="test-todo-tag">#hng</li>
@@ -63,13 +141,87 @@
         </ul>
 
         <!-- Buttons -->
-        <div class="buttons">
+        <div class="buttons card-buttons">
           <button class="edit" data-testid="test-todo-edit-button">Edit</button>
           <button class="delete" data-testid="test-todo-delete-button">
             Delete
           </button>
         </div>
       </article>
+
+      <div class="edit-modal" id="edit-modal" hidden>
+        <div class="edit-modal-backdrop" data-close-edit="true"></div>
+        <section
+          class="edit-modal-panel"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="edit-modal-heading"
+        >
+          <h3 id="edit-modal-heading">Edit Todo</h3>
+          <form
+            class="todo-edit-form"
+            data-testid="test-todo-edit-form"
+            aria-label="Edit todo"
+          >
+            <div class="field">
+              <label for="edit-title">Title</label>
+              <input
+                id="edit-title"
+                type="text"
+                data-testid="test-todo-edit-title-input"
+              />
+            </div>
+
+            <div class="field">
+              <label for="edit-description">Description</label>
+              <textarea
+                id="edit-description"
+                rows="4"
+                data-testid="test-todo-edit-description-input"
+              ></textarea>
+            </div>
+
+            <div class="field split">
+              <div>
+                <label for="edit-priority">Priority</label>
+                <select
+                  id="edit-priority"
+                  data-testid="test-todo-edit-priority-select"
+                >
+                  <option value="Low">Low</option>
+                  <option value="Medium">Medium</option>
+                  <option value="High">High</option>
+                </select>
+              </div>
+              <div>
+                <label for="edit-due-date">Due Date</label>
+                <input
+                  id="edit-due-date"
+                  type="date"
+                  data-testid="test-todo-edit-due-date-input"
+                />
+              </div>
+            </div>
+
+            <div class="buttons form-buttons">
+              <button
+                type="submit"
+                class="save"
+                data-testid="test-todo-save-button"
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                class="cancel"
+                data-testid="test-todo-cancel-button"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </section>
+      </div>
     </main>
     <script src="main.js"></script>
   </body>
